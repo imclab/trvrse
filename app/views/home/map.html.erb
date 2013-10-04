@@ -1,0 +1,323 @@
+    <!-- <div class='controls-container'> -->
+      <div id="account-controls" class="controls">
+        <div class="main">
+        <% if current_user %>
+          <%= image_tag current_user.gravatar %>
+          Hello, <%= current_user.tripit_ref %>
+          <a id="images-button" class='btn btn-mini btn-inverse'>My Images</a>
+          <a href="sessions/destroy" class="btn btn-mini btn-inverse">Log Out</a>
+        <% else %>
+        If you sign in, you can create lists and more.
+        <a href="sessions/create" class="btn btn-mini btn-inverse">Log In/Sign Up with TripIt</a>
+      <% end %>
+      </div>
+      </div>
+      <div id="search-controls" class="controls">
+        <div class="main">
+          <h1 class="logo">trvrse</h1>
+        <!--<form id="search-form" action="" method="get" accept-charset="utf-8" class="form form-search">
+            <input type="text"  class="span4" name="search" id="search-box" value="" placeholder="scuba dive, hike, see ancient ruins, etc." />
+            <input type="submit" name="" id="" value="Search" class="btn btn-inverse" />
+          </form>-->
+        <form id="search-form2" action="" method="get" accept-charset="utf-8" class="form form-search">
+            <input type="text"  class="span4" name="search" id="search-box2" value="" placeholder="scuba dive, hike, see ancient ruins, etc." />
+            <input type="submit" name="" id="" value="Search" class="btn btn-inverse" />
+        </form>
+      </div>
+      </div>
+    <!-- </div> -->
+  <!-- </div> -->
+  <div id='loading' class="controls">
+    <div class="progress progress-striped active" style="width: 200px;">
+    <div class="bar" style="width: 100%;"></div>
+  </div>
+  </div>
+  <div id='popover'>
+    <div>
+      <div class='container' id='popover-content'>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var markers = new Array();
+    var photo_markers = new Array();
+    var locs;
+    var photo_locs;
+    var searching = 0;
+    var map;
+
+    function load_map() {
+      var myOptions = {
+        center: new google.maps.LatLng(12,0),
+        zoom: 2,
+        disableDefaultUI: true,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+      map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+      return map;
+    }
+
+    function place_locations(map, locations_json) {
+      locs = locations_json;
+
+      for (var i in locs) {
+        var loc = new google.maps.LatLng(parseFloat(locs[i].lat), parseFloat(locs[i].long));
+        var icon;
+        if (locs[i].visited == true) {
+          icon = 'assets/marker_true.png';
+        } /*else if (searching < 10) {
+          icon = 'assets/marker_false_10.png';
+        }*/ else {
+          icon = 'assets/marker_false_' + Math.round(locs[i].rating/10) + '.png';
+        }
+
+        markers[i] = new google.maps.Marker({
+          position: loc,
+          map: map,
+          title: loc.name,
+          animation: google.maps.Animation.DROP,
+          icon: icon
+        });
+        var fn = (function (mid) {
+          return function() {
+            load_popover('ajax/location/' + locs[mid].id);
+            map.panTo(markers[mid].getPosition());
+            if (map.getZoom() < 5) {
+              map.setZoom(5);
+            }
+          };
+        }) (i);
+        google.maps.event.addListener(markers[i], 'click', fn);
+      }
+    }
+
+    function clear_trips() {
+      for (var i in markers) {
+        markers[i].setMap(null);
+      }
+      markers = new Array();
+      locs = null
+    }
+    function clear_photos() {
+      for (var i in photo_markers) {
+        photo_markers[i].setMap(null);
+      }
+      photo_markers = new Array();
+      photo_locs = null
+    }
+    function load_trips(map, filter) {
+      clear_trips();
+      $.ajax({
+        url: 'ajax/locations',
+        success: function(json, textStatus) {
+          place_locations(map, json);
+        },
+        data: {
+          tags: filter
+        }
+      });
+    }
+
+    function place_photos(map, locations_json) {
+      photo_locs = locations_json;
+
+      for (var i in photo_locs) {
+        var loc = new google.maps.LatLng(parseFloat(photo_locs[i].lat), parseFloat(photo_locs[i].long));
+        photo_markers[i] = new google.maps.Marker({
+          position: loc,
+          map: map,
+          title: loc.name,
+          animation: google.maps.Animation.DROP,
+          icon: 'assets/marker_photo.png',
+          zIndex: searching
+        });
+        var fn = (function (mid) {
+          return function() {
+            load_popover('verses/' + photo_locs[mid].id);
+            map.panTo(photo_markers[mid].getPosition());
+            if (map.getZoom() < 13) {
+              map.setZoom(13);
+            }
+          };
+        }) (i);
+        google.maps.event.addListener(photo_markers[i], 'click', fn);
+      }
+    }
+    function load_photos(map, filter) {
+      if (filter == "") {
+        searching = -250;
+      }
+      else
+      {
+        searching = 1000;
+      }
+
+      clear_photos();
+      $.ajax({
+        url: 'verses/',
+        data: {
+          tags: filter
+        },
+        success: function(json, textStatus) {
+          place_photos(map, json);
+        }
+      });
+    }
+    function hide_popover() {
+      $('#popover').fadeOut(500);
+      $('#account-controls').css('bottom', '0');
+      $('#search-controls').css('top', '0');
+      $('.controls').css('opacity', '1');
+      //$('#popover>.container').css('margin-top', ($(window).height()*7).toString() + 'px')
+    }
+
+    function show_popover() {
+      $('#popover').hide().fadeIn(300);
+      $('#account-controls').css('bottom', '-50px');
+      $('#search-controls').css('top', '-110px');
+      $('.controls').css('opacity', '0');
+      //$('#popover>.container').css('margin-top', '50px')
+    }
+
+    function load_stuff(filter) {
+        load_photos(map, filter);
+        load_trips(map, filter);
+    }
+
+    function slider_value(value) {
+      n = value % 10;
+      nn = 10 - n;
+      string = '';
+      if (value >= 0 && value < 10) {
+        string += "Ac";
+        for (var i = 0; i < nn/3; i++) {string += "k";}
+        string += " Bla";
+        for (var i = 0; i < nn/3; i++) {string += "u";}
+        for (var i = 0; i < nn/2; i++) {string += "g";}
+        string += "h";
+        for (var i = 0; i < nn/4; i++) {string += "k";}
+        for (var i = 0; i < nn/5; i++) {string += "!";}
+      } else if (value < 20) {
+        string += "Blag";
+        for (var i = 0; i < nn/2; i++) {string += "h";}
+      } else if (value < 30) {
+        string += "Ug";
+        for (var i = 0; i < nn/2; i++) {string += "h";}
+      } else if (value < 40) {
+        string += "Eh";
+        for (var i = 0; i < nn/2; i++) {string += "h";}
+      } else if (value < 60) {
+        string += "Meh";
+      } else if (value < 70) {
+        string += "Mm";
+        for (var i = 0; i < n/2; i++) {string += "m";}
+      } else if (value < 80) {
+        string += "Mm";
+        for (var i = 0; i < n/2; i++) {string += "m";}
+        string += "hm";
+        for (var i = 0; i < n/3; i++) {string += "m";}
+      } else if (value < 90) {
+        string += "Yess";
+        for (var i = 0; i < n/3; i++) {string += "s";}
+      } else if (value < 100) {
+        string += "Per";
+        for (var i = 0; i < n/3; i++) {string += "r";}
+        string += "fect";
+      } else {
+        string += "Perrrrfect!";
+      }
+
+      return string;
+    }
+
+    function load_popover(source) {
+      $.ajax({
+        url: source,
+        dataType: 'html',
+        success: function(html, textStatus) {
+          $('#popover-content').html(html);
+          $('#popover a').click(function(e) {
+            if (e.currentTarget.classList.contains('external') == false) {
+              load_popover(e.currentTarget.pathname);
+              e.preventDefault();
+            }
+          });
+          $('#close-popover-button').click(function() {
+            hide_popover();
+          });
+          show_popover();
+        }
+      });
+    }
+
+    $(function() {
+      $.ajaxSetup({
+        dataType: 'json',
+        error: function(xhr, status, error){
+          alert('Error: ' + error);
+        },
+        timeout: 60000,
+        type: 'GET'
+      });
+
+      var map = load_map();
+
+      $('#lists-button').click(function(){
+        load_popover('lists');
+      });
+
+      $('#images-button').click(function(){
+        load_popover('verses/mine');
+      });
+      
+      $('#loading')
+        .hide()
+        .bind('ajaxStart', function() {
+          $(this).show();
+        })
+        .bind('ajaxComplete', function() {
+          $(this).hide();
+        });
+
+      $('#popover').hide();
+
+      $.ajax({
+          url: 'trips/sync',
+          success: function() {
+            load_trips(map, "");
+            load_photos(map, "");
+          }
+        });
+
+
+      $(document).keyup(function(e) {
+        if(e.which == 27) {
+          hide_popover();
+        }
+      });
+
+      $('#search-form2').submit(function() {
+        load_stuff($('#search-box2').val());
+        return false;
+      });
+
+      $('#search-form').submit(function() {
+        load_popover('ajax/search/' + $('#search-box').val() );
+        return false;
+      });
+
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var loc_here = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        marker_here = new google.maps.Marker({
+          position: loc_here,
+          map: map,
+          animation: google.maps.Animation.DROP,
+          icon: new google.maps.MarkerImage('assets/marker_here.png', new google.maps.Size(20, 20), new google.maps.Point(0,0), new google.maps.Point(10, 10)),
+          zIndex: 300
+        });
+      });
+    })
+  </script>
+
+<div id="map_canvas"></div>

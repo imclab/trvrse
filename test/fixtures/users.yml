@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  tripit_ref: MyString
+  authorized_key: MyString
+  authorized_secret: MyString
+
+two:
+  tripit_ref: MyString
+  authorized_key: MyString
+  authorized_secret: MyString

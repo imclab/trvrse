@@ -1,0 +1,10 @@
+<% if not comment.content.empty? %>
+  <div class="user-comment location-comment">
+    <%= image_tag comment.user.gravatar(32) %>
+      <%= simple_format h(comment.content) %>
+      <p class='rating' style="color: <%= percent_color(comment.rating) %>;">
+      <%= comment.rating %>%<span>rating</span>
+      </p>
+    <span><%= comment.user.name %></span>
+  </div>
+<% end %>

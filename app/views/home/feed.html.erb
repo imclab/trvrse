@@ -1,0 +1,24 @@
+<% unless current_user %>
+<div class="hero">
+<div class= "container">
+  <div class="row">
+    <div class="span12">
+      <h1>Explore the world!</h1>
+      <h2>Share your pictures of fantastic adventures. Geotag mandatory. <a href="#">Learn More</a></h2>
+      <%#<ul>%>
+        <%#<li>Verse what you love. (We're trying to build a directory of awesome things! Keep the sucky things out.)</li>%>
+        <%#<li>Verse what others can enjoy. (By versing something, you're telling everyone "this is something you should go see or do for yourself." And as awesome as the painting in your bedroom is, you don't want strangers walking through your apartment looking for it. If other people can't get to it, don't post it.)</li>%>
+        <%#<li>Verse what's here, not what's happening. (You want someone to go to where you)</li>%>
+      <%#</ul>%>
+    </div>
+  </div>
+</div>
+</div>
+<% end %>
+<div class="container clearboth">
+  <div class="row">
+    <% @verses.each do |verse| %>
+      <%= render :partial => 'shared/verse', locals: {:verse => verse} %>
+    <% end %>
+  </div>
+</div>

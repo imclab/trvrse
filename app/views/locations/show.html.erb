@@ -1,0 +1,34 @@
+<div class="hero">
+<div class="container">
+    <h1>
+      <%= @location.name %>
+    </h1>
+    <h2>
+      <% if @trips.nil? %>
+        <small>Please log in</small>
+      <% elsif @trips.exists? %>
+        <small>You've traveled here.</small>
+      <% else %>
+        <small>You've never traveled here</small>
+      <% end %>
+    </h2>
+  <div class='row'>
+    <div class='span9'>
+      <div class='row'>
+        <div class='span9'>
+          <% if @location.get_description %>
+          <div class='wp-description'>
+            <%=raw truncate( @location.get_description,
+                :length => 400,
+                :omission => "... (<a href='http://wikipedia.org/wiki/#{ @location.name }' class='external'>Continue reading on Wikipedia</a>)") %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class='span3'>
+      
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,11 @@
+<div class="span3 verse">
+  <%= link_to verse do %>
+    <%= image_tag verse.user.gravatar(40), class: "avatar" if verse.user %>
+    <%= image_tag verse.image.url(:medium) %>
+    <div>
+      <p>
+        <%= truncate verse.caption, length: 130 %>
+      </p>
+    </div>
+  <% end %>
+</div>

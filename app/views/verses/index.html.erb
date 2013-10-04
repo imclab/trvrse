@@ -1,0 +1,12 @@
+<div class='page-header'>
+  <h1>My Images</h1>
+  <%= image_tag 'close.png', :id => 'close-popover-button' %>
+</div>
+<div class="container clearboth">
+  <div class="row">
+    <% @verses.each do |verse| %>
+      <%= render :partial => 'shared/verse', locals: {:verse => verse} %>
+    <% end %>
+  </div>
+</div>
+<p><%= link_to 'New Image', new_verse_path, class: 'btn btn-primary' %></p>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<% @navbar_tab ||= :none %>
+<html>
+<head>
+  <title>Trvrse</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <link href='http://fonts.googleapis.com/css?family=Crete+Round' rel='stylesheet' type='text/css'>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+<!--<div class="navigation">
+  <% bgimage = (rand(6) + 1) %>
+  <%= image_tag "bgs/" + bgimage.to_s + ".jpeg", class:"nav-bg" %>
+  <% if bgimage < 3 %>
+  <nav class="container">
+  <% else %>
+  <nav class="container dark">
+  <% end %>
+    <div>
+      <h1>trvrse</h1>
+      <div>
+        <a href="<%= feed_url %>" class="nav-btn<% if @navbar_tab == :feed %> selected<% end %>">FEED</a>
+      </div>
+      <div>
+        <a href="<%= feed_url %>" class="nav-btn<% if @navbar_tab == :popular %> selected<% end %>">POPULAR</a>
+      </div>
+      <div>
+        <a href="<%= guidebook_url %>" class="nav-btn<% if @navbar_tab == :guidebook %> selected<% end %>">GUIDEBOOK</a>
+      </div>
+    </div>
+    <div class="right">
+      <% if current_user %>
+        <div>
+          <a href="<%= user_path(current_user.tripit_ref) %>" class="nav-btn<% if @navbar_tab == :user %> selected<% end %>">My Travelog</a>
+        </div>
+        <div>
+          <a href="<%= logout_url %>"><%= image_tag current_user.gravatar(35), class: 'avatar'  %></a>
+        </div>
+      <% else %>
+        <a href="<%= login_url %>" class="nav-btn">LOG IN with TripIt</a>
+      <% end %>
+    </div>
+  </nav>
+</div>
+<div class="not-navbar">-->
+<%= yield %>
+</div>
+
+</body>
+</html>

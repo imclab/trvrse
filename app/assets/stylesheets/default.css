@@ -1,0 +1,754 @@
+.progress.active .bar {
+  -webkit-animation: progress-bar-stripes 1s linear infinite !important;
+     -moz-animation: progress-bar-stripes 1s linear infinite !important;
+      -ms-animation: progress-bar-stripes 1s linear infinite !important;
+       -o-animation: progress-bar-stripes 1s linear infinite !important;
+          animation: progress-bar-stripes 1s linear infinite !important;
+}
+
+body {
+  background-color:#202020;
+}
+
+.not-navbar {
+  background-color:#202020;
+  box-shadow: 0px -1px 1px #000;
+  margin-top: 50px;
+  padding-top: 30px;
+}
+
+/* NAVBAR STUFF */
+
+.navigation {
+  overflow: hidden;
+  position: fixed;
+  height: 50px;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: -50;
+  box-shadow: 0px 0px 3px #000;
+}
+
+.navigation>img.nav-bg {
+  position: absolute;
+  top: 0;
+  z-index: -100;
+  max-width: none;
+}
+
+nav {
+}
+
+nav>div {
+  float: left;
+  display: table;
+  height: 50px;
+}
+
+nav>div.right {
+  float: right;
+}
+
+nav>div>a, nav>div>img, nav>div>h1, nav>div>div {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+nav:after {
+  display: block;
+  content: ' ';
+  clear: both;
+}
+
+nav>div>h1 {
+  color: #000;
+  font-family: 'Crete Round', serif;
+  padding-right: 10px;
+  line-height: 0.5;
+}
+
+nav>div a.nav-btn {
+  color: #000;
+  font-weight: bold;
+  padding: 5px 13px;
+  line-height: 1;
+  font-family: 'Crete Round', serif;
+}
+
+nav.dark>div>h1, nav.dark>div a.nav-btn {
+  color: #fff;
+}
+nav>div a.nav-btn:hover {
+  text-decoration: underline;
+}
+
+nav>div a.nav-btn.selected {
+  color: #fff;
+  background-color: #50c;
+  text-shadow: 0px -1px 0px #104;
+  border-radius: 5px;
+}
+
+
+img.avatar {
+  border-radius: 500px;
+  box-shadow: 0px 1px 3px #000;
+}
+
+
+/* verse stuff */
+
+.verse {
+  background-color: #fff;
+  display: block;
+  float: left;
+  margin-bottom: 30px;
+  padding: 0px;
+  border-radius: 5px;
+  position: relative;
+  box-shadow: 0px 0px 3px #000;
+  -webkit-transition: all 0.2s linear;
+  overflow: hidden;
+}
+
+
+.verse:hover {
+  box-shadow: 0px 0px 10px #50c;
+}
+
+.verse>a img.avatar {
+  border-radius: 5000px;
+  position: absolute;
+  top: -45px;
+  right: 5px;
+  -webkit-transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.verse>a:hover img.avatar {
+  opacity: 1;
+  top: 5px;
+}
+
+.verse>a>img {
+  border-radius: 5px;
+}
+
+.verse>a>div {
+  position: absolute;
+  bottom: -50px;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  -webkit-transition: all 0.2s ease;
+}
+
+.verse>a:hover>div {
+  bottom: 0px;
+  opacity: 1;
+}
+
+.verse>a>div>p {
+  padding: 10px;
+  margin: 0;
+  bottom: -30px;
+  background: rgba(0,0,0,0.6);
+  border-top: 1px solid #000;
+  border-radius: 0 0 3px 3px;
+  color: #fff;
+  position: relative;
+  bottom: 100%;
+}
+
+.verse>a>div>p>span, .tags {
+  display: block;
+  text-transform: uppercase;
+  font-size: 0.7em;
+  font-weight: bold;
+  font-family: 'Crete Round', serif;
+  line-height: 19px;
+}
+
+.verse>a>div>p>span>a, .tags>a {
+  color: #000;
+  padding: 2px 3px;
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+.verse>a>div>p>span>a:hover, .verse>a>p>span>a:active, .tags>a, .tags>a:active {
+  color: #fff;
+  background-color: #50c;
+  text-decoration: none;
+}
+
+.verse>a>div>p>span>a:active, .tags>a:active {
+  background-color: #000;
+}
+
+.verse>a>div>p>span>a>span {
+  font-size: 12px;
+  line-height: 8px;
+}
+
+.new-verse {
+  -webkit-transition: box-shadow 0.4s ease;
+}
+
+.new-verse:hover {
+  box-shadow: 0px 0px 5px #000;
+  -webkit-transition: all 0.2s ease;
+}
+
+.new-verse:active {
+  box-shadow: 0 0 1px #000;
+}
+
+/* hero unit stuff */
+
+div.hero {
+  color: #fff;
+  padding: 50px 0;
+  margin-bottom: 30px;
+  margin-top: -30px;
+  border-bottom: 1px solid #000;
+}
+
+.hero h1 {
+  font-family: "Crete Round", serif;
+  font-size: 40px;
+  text-align: center;
+  text-shadow: 0px 2px 1px #000;
+}
+
+.hero h2 {
+  margin-top: 10px;
+  text-align: center;
+}
+
+form.hero {
+  text-align: center;
+}
+
+form.hero>div {
+  margin-top: 30px;
+  font: 20px "Crete Round", serif;
+}
+
+input.hero[type=text] {
+  margin: 0 auto;
+  padding: 10px;
+  font: 20px "Crete Round", serif;
+}
+
+/* other stuff */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Crete Round", serif;
+}
+
+
+.page-header {
+  border-bottom: 1px solid #aaa;
+}
+
+#searchinput[value="My Location"] {
+   color: #00f;
+}
+
+h1.logo {
+  text-align: center;
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.round-border {
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px #000;
+}
+
+.like-button {
+  border-radius: 3px;
+  color: #444;
+  display: inline-block;
+  padding: 5px 5px 5px 23px;
+  background: url('heart_false.png') 5px center no-repeat;
+  text-shadow: 0px 1px 1px #000;
+}
+
+.like-button.img {
+  display: block;
+}
+
+.like-button:hover, .like-button.selected {
+  background-image: url('heart_true.png');
+  text-decoration: none;
+  color: #000;
+}
+
+.like-button:active, .like-button.selected {
+  background-color: #50c;
+  color: #fff;
+}
+
+/* old stuff */
+
+.controls-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  font-family: 'Crete Round', serif;
+  right: 0;
+
+  overflow: hidden;
+}
+
+.clearboth:after {
+  content: ' ';
+  display: block;
+  clear: both;
+}
+
+#map_canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+}
+
+.jslider {
+  margin-top: 20px;
+  max-width: 500px;
+  margin-bottom: 35px;
+}
+
+.jslider-label {
+  visibility: hidden;
+}
+#account-controls {
+  bottom: 0;
+  left: 50%;
+}
+
+#account-controls>div {
+  position: relative;
+  right: 50%;
+  border-radius: 5px 5px 0 0;
+}
+
+#search-controls {
+  top: 0;
+  left: 50%;
+}
+
+#search-controls>div {
+  position: relative;
+  right: 50%;
+  border-radius: 0 0 5px 5px;
+}
+
+.controls {
+  z-index: 100;
+  position: absolute;
+  -webkit-transition: all 0.5s cubic-bezier(0.745, 0.165, 0.265, 0.815);
+  -moz-transition: all 0.5s cubic-bezier(0.745, 0.165, 0.265, 0.815);
+  -ms-transition: all 0.5s cubic-bezier(0.745, 0.165, 0.265, 0.815);
+  -o-transition: all 0.5s cubic-bezier(0.745, 0.165, 0.265, 0.815);
+  tronsition: all 0.5s cubic-bezier(0.745, 0.165, 0.265, 0.815);
+}
+
+.comment>div {
+  border-radius: 5px;
+  background-color: #eee;
+  padding: 10px;
+  box-shadow: inset 0px 1px 1px #aaa;
+  border: 1px #eee solid;
+}
+
+.wmd-button-row 
+{
+	position: relative; 
+	margin-left: 5px;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-top: 10px;
+	padding: 0px;  
+	height: 20px;
+}
+
+.wmd-spacer
+{
+	width: 1px; 
+	height: 20px; 
+	margin-left: 14px;
+	
+	position: absolute;
+	background-color: Silver;
+	display: inline-block; 
+	list-style: none;
+}
+
+.wmd-button {
+    width: 20px;
+    height: 20px;
+    padding-left: 2px;
+    padding-right: 3px;
+    position: absolute;
+    display: inline-block;
+    list-style: none;
+    cursor: pointer;
+}
+
+.wmd-button > span {
+    background-image: url(wmd-buttons.png);
+    background-repeat: no-repeat;
+    background-position: 0px 0px;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+.wmd-spacer1
+{
+    left: 50px;
+}
+.wmd-spacer2
+{
+    left: 175px;
+}
+.wmd-spacer3
+{
+    left: 300px;
+}
+
+
+
+
+.wmd-prompt-background
+{
+	background-color: Black;
+}
+
+.wmd-prompt-dialog
+{
+	border: 1px solid #999999;
+	background-color: #F5F5F5;
+}
+
+.wmd-prompt-dialog > div {
+	font-size: 0.8em;
+	font-family: arial, helvetica, sans-serif;
+}
+
+
+.wmd-prompt-dialog > form > input[type="text"] {
+	border: 1px solid #999999;
+	color: black;
+}
+
+.wmd-prompt-dialog > form > input[type="button"]{
+	border: 1px solid #888888;
+	font-family: trebuchet MS, helvetica, sans-serif;
+	font-size: 0.8em;
+	font-weight: bold;
+}
+
+.main {
+  background-color: rgba(0,0,0,0.5);
+  padding: 15px 30px;
+  color: #fff;
+}
+
+#loading {
+  top: 50%;
+  left: 50%;
+  margin-left: -150px;
+  z-index: 600;
+}
+
+#loading>div {
+  box-shadow: 0px 1px 3px #000;
+}
+
+#popover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 500;
+}
+
+#popover:before {
+   content:"";
+   position:absolute;
+   z-index:-1;
+   top:0;
+   bottom:0;
+   left:0;
+   right:0;
+   background:url(bg.png);
+   opacity:0.5;
+}
+
+#popover>div {
+  overflow: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#popover>div>.container {
+  background-color:#fff;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  padding: 0px 25px;
+  box-shadow: 0px 1px 3px 1px #000;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #fff;
+}
+
+.page-header {
+  position: relative;
+}
+
+#close-popover-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  opacity: 0.5;
+  z-index: 560;
+}
+
+#close-popover-button:hover {
+  opacity: 1;
+}
+
+div.user-comment>img, img.user-avatar {
+  border: 2px solid #fff;
+  box-shadow: 0px 0px 2px #000;
+}
+
+div.user-comment.location-comment {
+  border: 2px solid #fff;
+  box-shadow: 0px 0px 2px #000;
+  padding: 10px;
+  background-color: #eee;
+  margin-bottom: 30px;
+  border-radius: 3px;
+  position: relative;
+}
+
+div.user-comment.location-comment>img {
+  float:left;
+  position: relative;
+  left: -20px;
+  top: -20px;
+}
+
+div.user-comment.location-comment>p.rating, div.rating {
+  position: absolute;
+  top: -5px;
+  right: -10px;
+  font-size: 30px;
+  font-weight: bold;
+  display: block;
+  -webkit-transform: rotate(5deg);
+  -moz-transform: rotate(5deg);
+  transform: rotate(5deg);
+  text-align: center;
+}
+
+div.user-comment.location-comment>p.rating>span, div.rating>span {
+  font-size: 10px;
+  display: block;
+  text-align: center;
+}
+
+div.rating {
+  top: 10px;
+  right: 10px;
+  z-index: 520;
+  font-size: 60px;
+  line-height: 1;
+}
+
+div.user-comment.location-comment>span {
+  position: absolute;
+  top: 25px;
+  left: -9px;
+  width: 34px;
+}
+
+div.user-comment>span {
+  font-size: 10px;
+  color: #333;
+  display: block;
+  background-color: rgba(255,255,255, 0.5);
+  text-align: center;
+  border-radius: 0 0 3px 3px;
+}
+
+div.list-row {
+}
+
+div.list-row>div>a {
+  border: 2px solid #fff;
+  display: block;
+  color: #000;
+  -webkit-transition: all 0.2s ease;
+  box-shadow: 0px 0px 1px #000;
+  border-radius: 3px;
+  min-height: 250px;
+  position: relative;
+  margin-bottom: 50px;
+}
+
+div.list-row>div>a:hover {
+  text-decoration:none;
+  box-shadow: 0px 0px 4px #000;
+}
+
+div.list-row>div>a:active {
+  text-decoration:none;
+  box-shadow: 0px 0px 1px #000;
+}
+
+div.list-row h4 {
+  color: #111;
+}
+
+/*this is the row with the user's comment and stuff on it*/
+div.list-row>div>a>div {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  background-color: rgba(255,255,255,0.8);
+}
+
+div.list-row img.user-avatar {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+}
+
+
+div.list-row a.new-list-button {
+  background: none;
+  background-color: #fff;
+  text-align: center;
+  color: #aaa;
+  font-size: 30px;
+}
+
+div.list-row a.new-list-button>p {
+  padding-top: 20px;
+}
+
+
+div.list-row a.new-list-button>p:first-child {
+  padding-top: 80px;
+}
+
+
+
+
+/*this div wraps around the location popover content so that we can put the image in behind it*/
+div.location-wrap {
+  position: relative;
+  z-index: 550;
+}
+
+img.wp-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+img.wp-image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+
+.wp-description {
+  margin-bottom: 30px;
+}
+
+
+.location-list>a {
+  border: 2px solid #fff;
+  display: block;
+  color: #000;
+  -webkit-transition: all 0.2s ease;
+  box-shadow: 0px 0px 1px #000;
+  border-radius: 3px;
+  position: relative;
+  margin-bottom: 25px;
+
+  overflow: hidden;
+  background-repeat: no-repeat;
+}
+
+.location-list>a:before {
+  content: ' ';
+  background-image: url('wp-image-overlay.png');
+  background-repeat: no-repeat;
+  background-position: top left;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  height: 300px;
+  width: 300px;
+}
+
+
+.location-list>a:hover {
+  text-decoration: none;
+  box-shadow: 0px 0px 4px #000;
+}
+
+.location-list>a>h1 {
+  position: relative;
+  z-index: 560;
+  margin: 20px;
+}
+
+.location-list>a>div {
+  position: relative;
+  z-index: 560;
+  margin: 20px;
+}
+
+.right {
+  text-align: right;
+}
+
+@media(max-width:600px){
+  #search-controls, #account-controls {
+    left: 0;
+    right: 0;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  #search-controls>.main, #account-controls>.main {
+    margin:0 auto;
+    left: 0;
+    right: 0;
+    border-radius: 0;
+  }
+}

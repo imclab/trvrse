@@ -1,0 +1,35 @@
+<div class="row list-row">
+  <% lists.each_with_index do |list, index| %>
+    <% if (index % 4 == 0) and (index != 0) %>
+      </div>
+      <div class="row list-row">
+    <% end %>
+    <div class="span3">
+      <a href="lists/<%= list.id %>">
+        <% if (list.locations.first)  %>
+          <% if list.locations.first.get_image %>
+            <%= image_tag list.locations.first.get_image %>
+          <% else %>
+            <%= image_tag 'example.jpeg' %>
+          <% end %>
+        <% else %>
+          <%= image_tag 'example.jpeg' %>
+        <% end %>
+        <%= image_tag list.user.gravatar(32), class: 'user-avatar' %>
+        <div>
+          <h4><%= list.name %></h4>
+          <p><%= truncate(list.description, length: 80) %></p>
+        </div>
+      </a>
+    </div>
+  <% end %>
+
+  <% if defined? new_list %>
+    <div class="span3">
+    <a href="lists/new" class="new-list-button">
+      <p>+</p>
+      <p>New List</p>
+    </a>
+  </div>
+  <% end %>
+</div>

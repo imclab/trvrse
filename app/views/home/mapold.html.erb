@@ -1,0 +1,208 @@
+  <div id='loading' class="controls">
+    <div class="progress progress-striped active" style="width: 200px;">
+    <div class="bar" style="width: 100%;"></div>
+  </div>
+  </div>
+  <div id='popover'>
+    <div>
+      <div class='container' id='popover-content'>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var markers = new Array();
+    var locs
+
+    function load_map() {
+      var myOptions = {
+        center: new google.maps.LatLng(12,0),
+        zoom: 3,
+        disableDefaultUI: true,
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+      }
+      var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+      return map;
+    }
+
+    function place_locations(map, locations_json) {
+      locs = locations_json;
+
+      for (var i in locs) {
+        var loc = new google.maps.LatLng(parseFloat(locs[i].lat), parseFloat(locs[i].long));
+        markers[i] = new google.maps.Marker({
+          position: loc,
+          map: map,
+          title: loc.name,
+          animation: google.maps.Animation.DROP
+        });
+        var fn = (function (mid) {
+          return function() {
+            load_popover('verses/' + locs[mid].id);
+            map.panTo(markers[mid].getPosition());
+            if (map.getZoom() < 5) {
+              map.setZoom(5);
+            }
+          };
+        }) (i);
+        google.maps.event.addListener(markers[i], 'click', fn);
+      }
+    }
+
+    function clear_trips() {
+      for (var i in markers) {
+        markers[i].setMap(null);
+      }
+      markers = new Array();
+      locs = null
+    }
+    function load_trips(map) {
+      clear_trips();
+      $.ajax({
+        url: 'verses',
+        success: function(json, textStatus) {
+          clear_trips();
+          place_locations(map, json);
+        }
+      });
+    }
+    function hide_popover() {
+      $('#popover').fadeOut(500);
+      $('#account-controls').css('bottom', '0');
+      $('#search-controls').css('top', '0');
+      //$('#popover>.container').css('margin-top', ($(window).height()*7).toString() + 'px')
+    }
+
+    function show_popover() {
+      $('#popover').hide().fadeIn(300);
+      $('#account-controls').css('bottom', '-50px');
+      $('#search-controls').css('top', '-110px');
+      //$('#popover>.container').css('margin-top', '50px')
+    }
+
+    function slider_value(value) {
+      n = value % 10;
+      nn = 10 - n;
+      string = '';
+      if (value >= 0 && value < 10) {
+        string += "Ac";
+        for (var i = 0; i < nn/3; i++) {string += "k";}
+        string += " Bla";
+        for (var i = 0; i < nn/3; i++) {string += "u";}
+        for (var i = 0; i < nn/2; i++) {string += "g";}
+        string += "h";
+        for (var i = 0; i < nn/4; i++) {string += "k";}
+        for (var i = 0; i < nn/5; i++) {string += "!";}
+      } else if (value < 20) {
+        string += "Blag";
+        for (var i = 0; i < nn/2; i++) {string += "h";}
+      } else if (value < 30) {
+        string += "Ug";
+        for (var i = 0; i < nn/2; i++) {string += "h";}
+      } else if (value < 40) {
+        string += "Eh";
+        for (var i = 0; i < nn/2; i++) {string += "h";}
+      } else if (value < 60) {
+        string += "Meh";
+      } else if (value < 70) {
+        string += "Mm";
+        for (var i = 0; i < n/2; i++) {string += "m";}
+      } else if (value < 80) {
+        string += "Mm";
+        for (var i = 0; i < n/2; i++) {string += "m";}
+        string += "hm";
+        for (var i = 0; i < n/3; i++) {string += "m";}
+      } else if (value < 90) {
+        string += "Yess";
+        for (var i = 0; i < n/3; i++) {string += "s";}
+      } else if (value < 100) {
+        string += "Per";
+        for (var i = 0; i < n/3; i++) {string += "r";}
+        string += "fect";
+      } else {
+        string += "Perrrrfect!";
+      }
+
+      return string;
+    }
+
+    function load_popover(source) {
+      $.ajax({
+        url: source,
+        dataType: 'html',
+        success: function(html, textStatus) {
+          $('#popover-content').html(html);
+          $('#popover a').click(function(e) {
+            if (e.currentTarget.classList.contains('external') == false) {
+              load_popover(e.currentTarget.pathname);
+              e.preventDefault();
+            }
+          });
+          $('#close-popover-button').click(function() {
+            hide_popover();
+          });
+          show_popover();
+        }
+      });
+    }
+
+    $(function() {
+      $.ajaxSetup({
+        dataType: 'json',
+        error: function(xhr, status, error){
+          alert('Error: ' + error);
+        },
+        timeout: 60000,
+        type: 'GET'
+      });
+
+      var map = load_map();
+
+      $('#lists-button').click(function(){
+        load_popover('lists');
+      });
+      
+      $('#loading')
+        .hide()
+        .bind('ajaxStart', function() {
+          $(this).show();
+        })
+        .bind('ajaxComplete', function() {
+          $(this).hide();
+        });
+
+      $('#popover').hide();
+
+      $.ajax({
+          url: 'trips/sync',
+          success: function() {
+            load_trips(map);
+          }
+        });
+
+
+      $(document).keyup(function(e) {
+        if(e.which == 27) {
+          hide_popover();
+        }
+      });
+
+      $('#search-form').submit(function() {
+        load_popover('ajax/search/' + $('#search-box').val() );
+        return false;
+      });
+
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var loc_here = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+        marker_here = new google.maps.Marker({
+          position: loc_here,
+          map: map,
+          animation: google.maps.Animation.DROP,
+          icon: 'assets/marker_here.png',
+          zIndex: 300
+        });
+      });
+    })
+  </script>
+
+<div id="map_canvas"></div>

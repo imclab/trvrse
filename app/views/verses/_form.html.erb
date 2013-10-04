@@ -1,0 +1,49 @@
+<%= form_for(@verse) do |f| %>
+  <% if @verse.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@verse.errors.count, "error") %> prohibited this verse from being saved:</h2>
+
+      <ul>
+      <% @verse.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+    <%= f.file_field :image %>
+    <label for="">Trip</label>
+    <select name="verse[trip_id]" id="">
+      <% current_user.trips.each do |t| %>
+        <option value="<%= t.id %>"><%= t.name %></option>
+      <% end %>
+    </select>
+    <label for="">Caption</label>
+    <%= f.text_area :caption, placeholder: 'Add a caption...' %>
+    <label for="">Tags (space separated)</label>
+    <%= f.text_field :tags, placeholder: 'food beautiful dark green mountain' %>
+    <%= f.hidden_field :lat %>
+    <%= f.hidden_field :long %>
+
+  <div class="actions">
+    <button type="submit" class="btn btn-large btn-primary">Upload</button>
+    <%= link_to "Cancel", cancel_location, :class => 'btn btn-large' if defined? cancel_location %>
+  </div>
+
+  <script type="text/javascript" charset="utf-8">
+    $('#popover form').ajaxForm(function() {
+      load_popover('verses/mine');
+    });
+
+    $(function() {
+      navigator.geolocation.getCurrentPosition(handle_geolocation_query);
+    });
+
+    function handle_geolocation_query(position){
+      if ($('#verse_lat').val() == '') {
+        $('#verse_lat').val(position.coords.latitude);
+        $('#verse_long').val(position.coords.longitude);
+      }
+    }
+  </script>
+<% end %>

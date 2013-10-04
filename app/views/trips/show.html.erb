@@ -1,0 +1,39 @@
+<div class='page-header'>
+  <h1>
+    <%= @trip.name %>
+    <small>
+      at <a href="ajax/location/<%= @trip.location.id %>"><%= @trip.location.name %></a>
+      from <%= @trip.start_date.strftime('%B %-d, %Y') %> to <%= @trip.end_date.strftime('%B %-d, %Y') %>
+    </small>
+  </h1>
+    <%= image_tag 'close.png', :id => 'close-popover-button' %>
+</div>
+<div class='row'>
+  <div class='span9'>
+    <% if @comment.nil? %>
+      <p>Share your opinions and recommendations with the community!</p>
+      <p><a href="trips/<%= @trip.id %>/comment" class='btn'>Rate and comment on this trip</a></p>
+    <% else %>
+      <%= render :partial => 'shared/comment', :locals => {:comment => @comment} %>
+      <p><a href="trips/<%= @trip.id %>/comment" class='btn'>Edit Comment</a></p>
+    <% end %>
+
+    <script type="text/javascript" charset="utf-8">
+    </script>
+  </div>
+  <div class='span3'>
+    <% related_trips = @trip.location.trips.where(:user_id => current_user.id) %>
+    <% if related_trips.count > 1 %>
+    <h4>You've traveled to <%= @trip.location.name %> <%= pluralize related_trips.count - 1, 'other time' %></h4>
+    <ul class="thumbnails">
+      <% related_trips.each do |trip| %>
+        <% if trip.id != @trip.id %>
+          <%= render :partial => 'shared/minitrip', :locals => {:trip => trip} %>
+        <% end %>
+      <% end %>
+    </ul>
+    <% else %>
+      <h4>This <%= @trip.past?('was', 'is') %> your only trip to <%= @trip.location.name %></h4>
+    <% end %>
+  </div>
+</div>

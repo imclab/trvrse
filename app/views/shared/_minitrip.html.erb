@@ -1,0 +1,21 @@
+<li class="span3">
+  <div class="thumbnail">
+    <%= image_tag trip.image_url %>
+    <div class="caption">
+      <h5><%= trip.name %></h5>
+      <% if not trip.comment.nil? %>
+        <p>You said: <b>"<%= truncate trip.comment.content, length: 60 %>"</b> and gave it a rating of <b><%= trip.comment.rating %>%</b></p>
+        <p>
+          <a class="btn" href="trips/<%= trip.id %>/comment">Edit Comment</a>
+          <a href="http://www.tripit.com/trip/show/id/<%= trip.tripit_id %>" class="external btn btn-primary">View in TripIt</a>
+        </p>
+      <% else %>
+        <p>You have not left a comment or rating for this trip.</p>
+        <p>
+          <a class="btn btn-positive" href="trips/<%= trip.id %>/comment">Rate and Comment</a>
+          <a href="http://www.tripit.com/trip/show/id/<%= trip.tripit_id %>" class="external btn btn-primary">View in TripIt</a>
+        </p>
+      <% end %>
+    </div>
+  </div>
+</li>

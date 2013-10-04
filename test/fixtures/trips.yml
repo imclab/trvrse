@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  user: 
+  tripit_id: 1
+  location: MyString
+  lat: 1.5
+  long: 1.5
+  name: MyString
+
+two:
+  user: 
+  tripit_id: 1
+  location: MyString
+  lat: 1.5
+  long: 1.5
+  name: MyString

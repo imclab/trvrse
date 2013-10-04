@@ -1,0 +1,36 @@
+<div class='page-header'>
+  <h1>Image</h1>
+  <%= image_tag 'close.png', :id => 'close-popover-button' %>
+</div>
+<div class="row">
+  <div class="span6">
+    <%= image_tag @verse.image.url(:medium), class: 'round-border' %>
+  </div>
+  <div class="span6">
+    <p>
+    <%= image_tag "http://maps.googleapis.com/maps/api/staticmap?center=#{@verse.lat},#{@verse.long}&zoom=15&size=300x300&maptype=terrain&markers=#{@verse.lat},#{@verse.long}&sensor=true&key=#{Tripit::Application.config.google_maps_api_key}" , class: 'round-border' %>
+    </p>
+    <p>
+    <%= image_tag @verse.user.gravatar(40), class: 'avatar' %>
+    Image taken by <%= @verse.user.tripit_ref %> on a trip to <%= link_to( @verse.trip.location.name, ("ajax/location/" + @verse.trip.location.id.to_s)) %>.
+    </p>
+    <p><%= simple_format @verse.caption %></p>
+    <p class="tags">
+      <% @verse.tags.split(" ").each do |tag| %>
+        <a><%= tag %></a>
+      <% end %>
+    </p>
+    <p>
+    <% if current_user %>
+      <a href="<%= like_path(@verse.id) %>" class="like-button <%= "selected" if Like.d?(@verse, current_user) %>"><%= Like.s(@verse) %></a>
+
+      <% if current_user == @verse.user %>
+        <%= link_to "Edit Image", edit_verse_path(@verse) %>
+        <%= link_to "Delete Image", @verse, method: :destroy %>
+      <% end %>
+    <% end %>
+    </p>
+  </div>
+</div>
+
+<br />

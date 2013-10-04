@@ -1,0 +1,22 @@
+<div class='page-header'>
+<h1>You shouldn't be on this page</h1>
+</div>
+
+<p>
+  <b>List:</b>
+  <%= @list_item.list %>
+</p>
+
+<p>
+  <b>Trip:</b>
+  <%= @list_item.trip %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @list_item.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_list_item_path(@list_item) %> |
+<%= link_to 'Back', list_items_path %>

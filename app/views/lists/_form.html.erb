@@ -1,0 +1,17 @@
+<%= form_for(@list) do |f| %>
+  <h3>Name and describe your list:</h3>
+  <div class="input-prepend">
+    <span class='add-on'>The best places in the world to</span><%= f.text_field :to_what, :placeholder => 'go swimming, skydive, see castles', :class => 'span2' %>
+  </div>
+  <%= f.text_area :description, :placeholder => 'Type a quick description...', :rows => 10, :class=>'span4' %>
+  <div class="actions">
+    <button type="submit" class="btn btn-large btn-primary">Save</button>
+    <%= link_to "Cancel", cancel_location, :class => 'btn btn-large' if defined? cancel_location %>
+  </div>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+  $('#popover form').ajaxForm(function() {
+    load_popover('lists/<%= @list.id %>');
+  });
+</script>

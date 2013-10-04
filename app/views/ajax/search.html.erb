@@ -1,0 +1,9 @@
+<div class='page-header'>
+  <h1>Places where you can <%= params[:search] %></h1>
+  <%= image_tag 'close.png', :id => 'close-popover-button' %>
+</div>
+<div class='row'>
+  <div class='span12'>
+    <%= render partial: 'shared/lists', locals: {lists: @lists} %>
+  </div>
+</div>

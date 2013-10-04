@@ -1,0 +1,25 @@
+<div class="hero">
+<div class="container">
+  <div class="row">
+    <div class="span12">
+      <h1><%= image_tag @user.gravatar(70), class: 'avatar' %></h1>
+      <h2><%= @user.tripit_ref %>'s travelog</h2>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <% if @user == current_user %>
+      <div class="span3 verse new-verse">
+        <%= link_to new_verse_path do %><%= image_tag "http://placehold.it/600&text=New+Verse" %><% end %>
+      </div>
+    <% end %>
+    <% @verses.each do |verse| %>
+      <%= render :partial => 'shared/verse', locals: {:verse => verse} %>
+    <% end %>
+  </div>
+</div>
+
+<div class=

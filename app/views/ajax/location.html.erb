@@ -1,0 +1,61 @@
+<% if @location.comments.count > 0 %>
+<div class="rating" style="color: <%= percent_color(@location.rating) %>;"><%= @location.rating %>%<span>average rating</span></div>
+<% end %>
+<%= image_tag @location.get_image, :class=>'wp-image' if @location.get_image %>
+<%= image_tag 'wp-image-overlay.png', :class=>'wp-image-overlay' %>
+<div class="location-wrap">
+<div class='page-header'>
+  <h1><%= @location.name %></h1>
+  <%= image_tag 'close.png', :id => 'close-popover-button' %>
+</div>
+<div class='row'>
+  <div class='span9'>
+    <div class='row'>
+      <div class='span9'>
+        <% if @location.get_description %>
+        <div class='wp-description'>
+          <%=raw truncate( @location.get_description,
+              :length => 400,
+              :omission => "... (<a href='http://wikipedia.org/wiki/#{ @location.name }' class='external'>Continue reading on Wikipedia</a>)") %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <% if @location.comments.count > 0 %>
+      <% @location.comments.each do |comment| %>
+        <%= render :partial => 'shared/comment', :locals => {:comment => comment} %>
+      <% end %>
+    <% else %>
+      <h3>Nobody has commented on this location.</h3>
+    <% end %>
+    <div class="row">
+      <% if @location.verses.count > 0 %>
+        <div class="span9">
+          <h3>Photos from trips to <%= @location.name %></h3>
+        </div>
+        <% @location.verses.each do |v| %>
+          <%= render :partial => 'shared/verse', locals: {:verse => v} %>
+        <% end %>
+      <% else %>
+        <div class="span9">
+          <h3>Nobody has submitted photos at this location.</h3>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class='span3'>
+    <% if @trips.nil? %>
+      <h4>Connect with TripIt to see if you've traveled here before</h4>
+    <% elsif @trips.exists? %>
+    <h4>You've traveled here <%= pluralize @trips.count, 'time' %></h4>
+    <ul class="thumbnails">
+      <% @trips.each do |trip| %>
+        <%= render :partial => 'shared/minitrip', :locals => {:trip => trip} %>
+      <% end %>
+    </ul>
+    <% else %>
+      <h4>According to TripIt, you've never traveled here. You can rate and comment on this place after you travel here.</h4>
+    <% end %>
+  </div>
+</div>
+</div>

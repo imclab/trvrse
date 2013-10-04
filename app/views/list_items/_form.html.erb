@@ -1,0 +1,66 @@
+<%= form_for([@list, @list_item]) do |f| %>
+  <label for="">Location</label>
+  <input type="text" name="location_name" id="searchinput" value="<%= @list_item.location.name if @list_item.location %>" data-provide="typeahead" placeholder="Enter a city name..." />
+  <label for="">Why is this one of the best places to <%= @list.to_what %>?</label>
+  <%= f.text_area :description, :rows => 3, :class=>'span4', :placeholder => "Enter a description..." %>
+  <div class='actions'>
+    <button type="submit" class="btn btn-large btn-primary">Save</button>
+    <%= link_to "Cancel", cancel_location, :class => 'btn btn-large' if defined? cancel_location %>
+  </div>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+  $('#popover form').ajaxForm(function() {
+    load_popover('lists/<%= @list.id %>');
+  });
+
+  var autocomplete = $('#searchinput').typeahead()
+    .on('keyup', function(ev){
+
+        ev.stopPropagation();
+        ev.preventDefault();
+
+        //filter out up/down, tab, enter, and escape keys
+        if( $.inArray(ev.keyCode,[40,38,9,13,27]) === -1 ){
+
+            var self = $(this);
+            
+            //set typeahead source to empty
+            self.data('typeahead').source = [];
+
+            //active used so we aren't triggering duplicate keyup events
+            if( !self.data('active') && self.val().length > 0){
+
+                self.data('active', true);
+
+              $.ajax({
+                url: "http://www.tripit.com/complete/place",
+                data: {
+                  query: $(this).val()
+                },
+                dataType: 'jsonp',
+                success: function(data) {
+                  //set this to true when your callback executes
+                  self.data('active',true);
+
+                  //Filter out your own parameters. Populate them into an array, since this is what typeahead's source requires
+                  var arr = [],
+                      i=data.length;
+                  while(i--){
+                      arr[i] = data[i].label;
+                  }
+
+                  //set your results into the typehead's source 
+                  self.data('typeahead').source = arr;
+
+                  //trigger keyup on the typeahead to make it search
+                  self.trigger('keyup');
+
+                  //All done, set to false to prepare for the next remote query.
+                  self.data('active', false);
+                }
+              })
+            }
+        }
+    });
+</script>

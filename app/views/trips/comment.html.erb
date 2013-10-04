@@ -1,0 +1,48 @@
+<div class='page-header'>
+  <h1>
+    <%= @trip.name %>
+    <small>
+      Your general comments
+    </small>
+  </h1>
+    <%= image_tag 'close.png', :id => 'close-popover-button' %>
+</div>
+<div class='row'>
+  <div class='span9'>
+
+    <%= form_for [@trip, (@comment)], :html => {:class => 'well', :id => 'comment_form'} do |f| %>
+
+      <label>Drag the sider to rate this trip:</label>
+      <input class="slider percent-slider" id="main-slider" type='slider' name='comment[rating]' value='<%= @comment.rating || 50 %>'>
+
+      <% if @comment.rating.nil? %><div class="hidden-div" style="display:none;"><% end %>
+        <textarea class="wmd-input span6" rows='6' name="comment[content]" placeholder="Care to share some comments or tips about this location?"><%= @comment.content || '' %></textarea>
+        <div>
+          <button id="rate_button" class="btn btn-large btn-primary">Save</button>
+        </div>
+      <% if @comment.rating.nil? %></div><% end %>
+
+    <% end %>
+
+    <script type="text/javascript" charset="utf-8">
+      $('#popover form').ajaxForm(function() { 
+        load_popover('ajax/location/<%= @trip.location.id %>');
+      });
+      $('.percent-slider').slider({
+        skin: "plastic",
+        from: 0,
+        to: 100,
+        step: 1,
+        round: 1,
+        dimension: '',
+        scale: ['Awful', '|', '|', '|', 'Awesome'],
+        calculate: function(value) {
+          return slider_value(value);
+        },
+        callback: function() {
+          $('.hidden-div').show();
+        }
+      });
+    </script>
+  </div>
+</div>
