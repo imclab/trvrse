@@ -18,6 +18,9 @@ Getting It Set Up
   # Set up the database
   bundle exec rake db:schema:load
 
+  # Load the sample city data
+  bundle exec rake db:seed
+
   # Generate your own secret token: 
   echo "Tripit::Application.config.secret_token = '$(bundle exec rake secret)'" > config/initializers/secret_token.rb
   ```
