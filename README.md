@@ -1,23 +1,33 @@
 trvrse
 ======
 
-Trvrse is a sample app that uses the TripIt API. It was built in two weeks by our intern Robert, so please excuse the terrible hackish code.
+Trvrse is a sample app that uses the TripIt API. It was built in two weeks by our intern Robert, so please excuse the hackish code.
 
 Getting It Set Up
 -----------------
 
-1. Clone the app to your computer
+1. Get Trvrse installed and set up:
+  ```sh
+  # Clone the app to your computer
+  git clone git@github.com:tripit/trvrse.git
 
-1. `cd trvrse`
+  # Enter the directory and install dependencies
+  cd trvrse
+  bundle install
 
-1. Generate your own secret token: 
-```
-echo "Tripit::Application.config.secret_token = '$(rake secret)'" > config/initializers/secret_token.rb
-```
+  # Set up the database
+  bundle exec rake db:schema:load
+
+  # Generate your own secret token: 
+  echo "Tripit::Application.config.secret_token = '$(bundle exec rake secret)'" > config/initializers/secret_token.rb
+  ```
 
 1. Set your TripIt key and secret in `config/initializers/tripit.rb`. You can get an API key at <http://tripit.com/developer>
-1. Get a Google API token, enable it for Maps APIv2, and put it in the bottom of config/application.rb (This step is optional - it allows static mini-maps in the image view page to be shown)
-1. Run it: `rails server`
+
+1. *Optional —* Get a Google API token, enable it for the Google Static Maps API, and set it at the bottom of `config/application.rb`. This is used to put little mini-maps next to geotagged images. You can get your API key in the [Google API Console](https://code.google.com/apis/console), under API Access -> Simple API Access -> API Key.
+
+1. Start the server: `bundle exec rails server`
+
 1. Check it out: <http://localhost:3000>
 
 What Does it Do?
