@@ -12,8 +12,7 @@ Getting It Set Up
 
 1. Generate your own secret token: 
 ```
-echo "Tripit::Application.config.secret_token = '$(rake secret)'" \
-> config/initializers/secret_token.rb
+echo "Tripit::Application.config.secret_token = '$(rake secret)'" > config/initializers/secret_token.rb
 ```
 
 1. Set your TripIt key and secret in `config/initializers/tripit.rb`. You can get an API key at <http://tripit.com/developer>
