@@ -7,8 +7,15 @@ Getting It Set Up
 -----------------
 
 1. Clone the app to your computer
+
 1. `cd trvrse`
-1. Generate your own secret token: `echo "Tripit::Application.config.secret_token = '$(rake secret)'" > config/initializers/secret_token.rb`
+
+1. Generate your own secret token: 
+```
+echo "Tripit::Application.config.secret_token = '$(rake secret)'" \
+> config/initializers/secret_token.rb
+```
+
 1. Set your TripIt key and secret in `config/initializers/tripit.rb`. You can get an API key at <http://tripit.com/developer>
 1. Get a Google API token, enable it for Maps APIv2, and put it in the bottom of config/application.rb (This step is optional - it allows static mini-maps in the image view page to be shown)
 1. Run it: `rails server`
