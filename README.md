@@ -38,7 +38,7 @@ What Does it Do?
 
 Check out all these shmancy features:
 
-- You can log in with your TripIt account, and see all your trips plotted on a map. You can also see locations other people have gone too.
+- You can log in with your TripIt account, and see all your trips plotted on a map. You can also see locations other people have gone to.
 - You can review locations you've been to, complete with a slider to rank how much you liked or hated the place. You can also see other people's reviews (complete with gravatar profiles), and see an aggregate score for various locations around the globe. Additionally, on the map, the aggregate score is represented by the markers filling up. The more full a marker is, the higher the rating!
 - See your current location marked by a blue dot on the map.
 - When viewing a location, a background image and a short description of the location is pulled from Wikipedia.
